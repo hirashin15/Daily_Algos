@@ -82,8 +82,9 @@ var lengthOfLongestSubstring2 = function (s) {
     var ch = s[i];
 
     if (map.get(ch) >= start) start = map.get(ch) + 1;
+    console.log("Map.get: " + map.get(ch) + " New start: " + start)
     map.set(ch, i);
-    console.log("this is the map.get: " + map.get(ch) + " this is the new start: " + start)
+    console.log(`[Letter, index]: [${ch}, ${i}], and start is still: ${start}`)
 
     if (i - start + 1 > maxLen) maxLen = i - start + 1;
     // can also do this...
