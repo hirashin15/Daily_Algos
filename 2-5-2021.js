@@ -4,46 +4,37 @@
  * @return {number}
  */
 var findMedianSortedArrays = function (nums1, nums2) {
-  const length = nums1.length + nums2.length;
-  const half = length / 2;
-  console.log(`The half way mark is: ${half}`)
-  console.log(`Nums1: ${nums1} and Nums2: ${nums2}`)
+  if (nums1.length > nums2.length) {
+    return findMedianSortedArrays(nums2, nums1);
+  }
 
-  let singleArray = [];
-  // Test to see if its a single array
-  nums1.length === 0 ? singleArray = nums2 : singleArray = nums1;
+  let x = nums1.length;
+  let y = nums2.length;
 
-  // Otherwise, create single array
-  if (singleArray.length === 0) {
-    let p1, p2 = 0;
-    let i = 0;
-    while (i < half + 2) {
-      if (nums1[p1] < nums2[p2]) {
-        singleArray.push[nums1[p1]]
-        p1++;
+  let low = 0;
+  let high = x;
+
+  while (low <= high) {
+    let partitionX = Math.floor((low + high) / 2);
+    let partitionY = Math.floor((x + y + 1) / 2) - partitionX;
+
+    let maxLeftX = partitionX == 0 ? -Infinity : nums1[partitionX - 1];
+    let minRightX = partitionX == x ? Infinity : nums1[partitionX];
+    let maxLeftY = partitionY == 0 ? -Infinity : nums2[partitionY - 1];
+    let minRightY = partitionY == y ? Infinity : nums2[partitionY];
+
+    if (maxLeftX <= minRightY && maxLeftY <= minRightX) {
+      if ((x + y) % 2 == 0) {
+        return (Math.max(maxLeftX, maxLeftY) + Math.min(minRightX, minRightY)) / 2;
       } else {
-        singleArray.push[nums2[p2]];
-        p2++;
+        return Math.max(maxLeftX, maxLeftY);
       }
-      i++;
-    }
-  }
-
-  console.log(`Single array is: ${singleArray}`)
-
-  if (singleArray !== undefined) {
-    console.log("I have entered. Single array has been assigned")
-    if (length % 2 == 0) {
-      let total = singleArray[Math.floor(half)] + singleArray[Math.ceil(half)];
-      return total / 2;
+    } else if (maxLeftX > minRightY) {
+      high = partitionX - 1;
     } else {
-      return singleArray[Math.floor(half)]
+      low = partitionX + 1;
     }
   }
-
-  return "Hello!"
 };
 
-console.log(findMedianSortedArrays([], [1]))
-console.log(findMedianSortedArrays([2], []))
-console.log(findMedianSortedArrays([1, 2], [3, 4]))
+console.log(findMedianSortedArrays([1, 3], [2]));
